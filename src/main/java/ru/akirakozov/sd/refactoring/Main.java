@@ -14,7 +14,7 @@ import ru.akirakozov.sd.refactoring.servlet.QueryServlet;
 public class Main {
     public static void main(String[] args) throws Exception {
         ProductDatabase database = new ProductDatabase("jdbc:sqlite:test.db");
-        database.createTableIfNotExist();
+        database.createTableIfNotExists();
 
         Server server = new Server(8081);
 

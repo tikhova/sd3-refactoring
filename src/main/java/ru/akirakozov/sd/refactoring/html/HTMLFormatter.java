@@ -3,7 +3,7 @@ package ru.akirakozov.sd.refactoring.html;
 import java.sql.*;
 
 public class HTMLFormatter {
-    public static String formatResultSet(ResultSet resultSet) throws SQLException {
+    public static String formatResultSet(final ResultSet resultSet) throws SQLException {
         StringBuilder sb = new StringBuilder();
 
         while (resultSet.next()) {
@@ -24,10 +24,10 @@ public class HTMLFormatter {
     }
 
     public static String wrapText(String text) {
-        return "<html><body>" + text + "</body></html>";
+        return "<html><body>\r\n" + text + "</body></html>";
     }
 
     public static String formatHeading(String heading) {
-        return "<h1>" + heading + "</h1>";
+        return "<h1>" + heading + "</h1>\r\n";
     }
 }

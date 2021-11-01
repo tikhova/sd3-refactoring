@@ -27,7 +27,7 @@ public class TestHelper {
     @Before
     public void setUp() throws IOException, SQLException {
         MockitoAnnotations.openMocks(this);
-        database.createTableIfNotExist();
+        database.createTableIfNotExists();
         when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
     }
 

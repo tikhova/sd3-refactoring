@@ -14,13 +14,13 @@ public class GetProductsServletTest extends TestHelper {
 
     private String getHTMLRepresentation(List<Product> products) {
         StringBuilder res = new StringBuilder();
-        res.append("<html><body>\n");
+        res.append("<html><body>\r\n");
 
         for (Product product : products) {
-            res.append(product.name).append("\t").append(product.price).append("</br>\n");
+            res.append(product.name).append("\t").append(product.price).append("</br>\r\n");
         }
 
-        res.append("</body></html>\n");
+        res.append("</body></html>\r\n");
         return res.toString();
     }
 
