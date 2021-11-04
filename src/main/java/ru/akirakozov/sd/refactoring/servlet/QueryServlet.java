@@ -1,82 +1,45 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.database.ProductDatabase;
-import ru.akirakozov.sd.refactoring.html.HTMLFormatter;
+import ru.akirakozov.sd.refactoring.html.HTMLWriter;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 
 /**
  * @author akirakozov
  */
-public class QueryServlet extends HttpServlet {
+public class QueryServlet extends AbstractServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ProductDatabase database = new ProductDatabase("jdbc:sqlite:test.db");
         String command = request.getParameter("command");
+        HTMLWriter writer = new HTMLWriter(response);
 
-        switch(command) {
-            case "max": {
-                try {
-                    String rsText = database.getMaxPriceProduct();
-                    String heading = HTMLFormatter.formatHeading("Product with max price: ");
-                    String wrappedResponse = HTMLFormatter.wrapText(heading + rsText);
-                    response.getWriter().println(wrappedResponse);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-                break;
+        try {
+            switch (command) {
+                case "max":
+                    writer.printHTML("Product with max price: ", database.getMaxPriceProduct());
+                    break;
+                case "min":
+                    writer.printHTML("Product with min price: ", database.getMinPriceProduct());
+                    break;
+                case "sum":
+                    writer.printHTML("Summary price: \r\n" + database.getPriceSum());
+                    break;
+                case "count":
+                    writer.printHTML("Number of products: \r\n" + database.getCount());
+                    break;
+                default:
+                    writer.printText("Unknown command: " + command);
             }
-            case "min": {
-                try {
-                    String rsText = database.getMinPriceProduct();
-                    String heading = HTMLFormatter.formatHeading("Product with min price: ");
-                    String wrappedResponse = HTMLFormatter.wrapText(heading + rsText);
-                    response.getWriter().println(wrappedResponse);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-                break;
-            }
-            case "sum": {
-                try {
-                    String rsText = database.getPriceSum() + "\r\n";
-                    String heading = "Summary price: \r\n";
-                    String wrappedResponse = HTMLFormatter.wrapText(heading + rsText);
-                    response.getWriter().println(wrappedResponse);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-                break;
-            }
-            case "count": {
-                try {
-                    String rsText = database.getCount() + "\r\n";
-                    String heading = "Number of products: \r\n";
-                    String wrappedResponse = HTMLFormatter.wrapText(heading + rsText);
-                    response.getWriter().println(wrappedResponse);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-                break;
-            }
-            default: {
-                response.getWriter().println("Unknown command: " + command);
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
+        sendSuccessfulResponse(response);
     }
 
 }

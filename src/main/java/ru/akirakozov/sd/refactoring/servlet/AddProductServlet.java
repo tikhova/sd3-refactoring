@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * @author akirakozov
  */
-public class AddProductServlet extends HttpServlet {
+public class AddProductServlet extends AbstractServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -26,8 +26,7 @@ public class AddProductServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
+        sendSuccessfulResponse(response);
         response.getWriter().println("OK");
     }
 }

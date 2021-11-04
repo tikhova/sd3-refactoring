@@ -1,7 +1,5 @@
 package ru.akirakozov.sd.refactoring.database;
 
-import ru.akirakozov.sd.refactoring.html.HTMLFormatter;
-
 import java.sql.*;
 import java.util.Arrays;
 import java.util.List;

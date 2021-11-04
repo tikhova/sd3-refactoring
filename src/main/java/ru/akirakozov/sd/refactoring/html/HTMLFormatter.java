@@ -17,7 +17,7 @@ public class HTMLFormatter {
 
     public static String formatColumn(ResultSet resultSet, int columnIndex) throws SQLException {
         if (resultSet.next()) {
-            return String.valueOf(resultSet.getInt(columnIndex));
+            return resultSet.getInt(columnIndex) + "\r\n";
         }
 
         return "";
